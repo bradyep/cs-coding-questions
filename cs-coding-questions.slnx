@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="cs-coding-questions-tests/cs-coding-questions-tests.csproj" />
+  <Project Path="cs-coding-questions/cs-coding-questions.csproj" />
+</Solution>
