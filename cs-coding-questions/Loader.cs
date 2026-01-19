@@ -15,6 +15,7 @@ namespace cs_coding_questions
 
     private string? solutionName;
     private SolutionType solutionType;
+    private string[] solutionArgs = [];
     private ProcessArgsResult processArgsResult;
 
     private ProcessArgsResult ProcessArgs(string[] args)
@@ -42,19 +43,38 @@ namespace cs_coding_questions
           return new ProcessArgsResult(false, $"Received invalid SolutionType: {solutionTypeArg}");
         }
 
-        Console.WriteLine($"Solution: {this.solutionName} | SolutionType: {this.solutionType}");
-        return new ProcessArgsResult(true, "Successfully read in params");
+        this.solutionArgs = args.Skip(2).ToArray();
+
+        return new ProcessArgsResult(true, $"Successfully read in params -> Solution: {this.solutionName} | SolutionType: {this.solutionType} | SolutionArgs: {string.Join(", ", this.solutionArgs)}");
       }
     }
 
     public void Run()
     {
-      if (this.processArgsResult.Success == false)
+      string[] consoleOutput = [];
+
+      if (this.processArgsResult.Success == false || this.solutionName == null)
       {
         Console.WriteLine($"Could not process args. Shutting down.");
 
         return;
       }
+
+      switch (this.solutionName.Trim().ToLower())
+      {
+        case "anagram":
+          // load and run anagram
+          break;
+        default:
+          Console.WriteLine($"Could not find solution name");
+          break;
+      }
+
+      if (consoleOutput.Length > 0)
+      {
+        // Write it out
+      }
+
       return;
     }
 
