@@ -72,7 +72,13 @@ namespace cs_coding_questions
 
       if (consoleOutput.Length > 0)
       {
-        // Write it out
+        foreach (string line in consoleOutput)
+        {
+          Console.WriteLine(line);
+        }
+      } else
+      {
+        Console.WriteLine($"Did not receive anything to writw to console");
       }
 
       return;
