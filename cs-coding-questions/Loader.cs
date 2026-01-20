@@ -65,8 +65,9 @@ namespace cs_coding_questions
       switch (this.solutionName.Trim().ToLower())
       {
         case "anagram":
+          Console.WriteLine($"Running: anagram");
           if (CommandLineArgs.GetOption(this.solutionArgs, "words", "w") is { } w) solutionDict.Add(w.Key, w.Value);
-          var anagram = new Anagram(solutionDict);
+          var anagram = new Anagram(solutionDict, true);
           consoleOutput = anagram.solve(this.solutionType);
           break;
         default:
