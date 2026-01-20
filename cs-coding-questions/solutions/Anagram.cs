@@ -5,7 +5,7 @@ using System.Text;
 namespace cs_coding_questions.solutions
 {
   internal record PossibleAnagram(string firstWord, string secondWord);
-  internal class Anagram : Solution
+  public class Anagram : Solution
   {
     const char WORD_PAIR_SEPARATOR = '-';
     const char ANAGRAM_SET_SEPARATOR = '_';

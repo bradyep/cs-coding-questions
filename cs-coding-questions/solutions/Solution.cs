@@ -4,7 +4,7 @@ using System.Text;
 
 namespace cs_coding_questions.solutions
 {
-  internal abstract class Solution(Dictionary<string, string> solutionParams, bool? debug = false)
+  public abstract class Solution(Dictionary<string, string> solutionParams, bool? debug = false)
   {
     public bool paramsAreValid = false;
     public abstract bool verifyParams();

@@ -1,4 +1,5 @@
 ﻿using cs_coding_questions.solutions;
+using cs_coding_questions.utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,6 +53,7 @@ namespace cs_coding_questions
     public void Run()
     {
       string[] consoleOutput = [];
+      var solutionDict = new Dictionary<string, string>();
 
       if (this.processArgsResult.Success == false || this.solutionName == null)
       {
@@ -63,7 +65,9 @@ namespace cs_coding_questions
       switch (this.solutionName.Trim().ToLower())
       {
         case "anagram":
-          // load and run anagram
+          if (CommandLineArgs.GetOption(this.solutionArgs, "words", "w") is { } w) solutionDict.Add(w.Key, w.Value);
+          var anagram = new Anagram(solutionDict);
+          consoleOutput = anagram.solve(this.solutionType);
           break;
         default:
           Console.WriteLine($"Could not find solution name");
@@ -78,7 +82,7 @@ namespace cs_coding_questions
         }
       } else
       {
-        Console.WriteLine($"Did not receive anything to writw to console");
+        Console.WriteLine($"Did not receive anything to write to console");
       }
 
       return;
