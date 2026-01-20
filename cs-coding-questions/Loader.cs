@@ -16,7 +16,7 @@ namespace cs_coding_questions
 
     private string? solutionName;
     private SolutionType solutionType;
-    private string[] solutionArgs = [];
+    private List<string> solutionArgs = [];
     private ProcessArgsResult processArgsResult;
 
     private ProcessArgsResult ProcessArgs(string[] args)
@@ -44,7 +44,7 @@ namespace cs_coding_questions
           return new ProcessArgsResult(false, $"Received invalid SolutionType: {solutionTypeArg}");
         }
 
-        this.solutionArgs = args.Skip(2).ToArray();
+        this.solutionArgs = args.Skip(2).ToList();
 
         return new ProcessArgsResult(true, $"Successfully read in params -> Solution: {this.solutionName} | SolutionType: {this.solutionType} | SolutionArgs: {string.Join(", ", this.solutionArgs)}");
       }
@@ -52,7 +52,7 @@ namespace cs_coding_questions
 
     public void Run()
     {
-      string[] consoleOutput = [];
+      List<string> consoleOutput = [];
       var solutionDict = new Dictionary<string, string>();
 
       if (this.processArgsResult.Success == false || this.solutionName == null)
@@ -75,7 +75,7 @@ namespace cs_coding_questions
           break;
       }
 
-      if (consoleOutput.Length > 0)
+      if (consoleOutput.Count > 0)
       {
         foreach (string line in consoleOutput)
         {

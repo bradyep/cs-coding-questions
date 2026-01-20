@@ -6,7 +6,7 @@ namespace cs_coding_questions.utilities
 {
   internal static class CommandLineArgs
   {
-    public static KeyValuePair<string, string>? GetOption(string[] args, string flag, string? alias)
+    public static KeyValuePair<string, string>? GetOption(List<string> args, string flag, string? alias)
     {
       var lowerCaseArgs = args.Select(arg => arg.ToLowerInvariant()).ToArray();
       int optionIndex = Math.Max(lowerCaseArgs.IndexOf("--" + flag), lowerCaseArgs.IndexOf("-" + alias));

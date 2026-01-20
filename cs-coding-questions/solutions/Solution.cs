@@ -9,7 +9,7 @@ namespace cs_coding_questions.solutions
     protected Dictionary<string, string> SolutionParams { get; } = solutionParams;
     protected bool paramsAreValid = false;
     public abstract bool verifyParams();
-    public abstract string[] solve(SolutionType st);
+    public abstract List<string> solve(SolutionType st);
     public void debugLog(string text)
     {
       if (debug == true)

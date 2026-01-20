@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "cs-coding-questions": {
+      "commandName": "Project",
+      "commandLineArgs": "anagram 1 --words evil-vile_apple-paled_flow-wolf_grammer-mergers_slate-least"
+    }
+  }
+}

@@ -10,7 +10,7 @@ namespace cs_coding_questions.solutions
   {
     private const char WORD_PAIR_SEPARATOR = '-';
     private const char ANAGRAM_SET_SEPARATOR = '_';
-    private PossibleAnagram[] possibleAnagrams = [];
+    private List<PossibleAnagram> possibleAnagrams = [];
 
     public Anagram(Dictionary<string, string> solutionParams, bool? debug = false) : base(solutionParams, debug)
     {
@@ -32,15 +32,15 @@ namespace cs_coding_questions.solutions
 
           return false;
         }
-        this.possibleAnagrams.Append(new PossibleAnagram(words[0], words[1]));
+        this.possibleAnagrams.Add(new PossibleAnagram(words[0], words[1]));
       }
 
-      this.debugLog($"Received this many pairs to check: {this.possibleAnagrams.Length}");
+      this.debugLog($"Received this many pairs to check: {this.possibleAnagrams.Count}");
 
       return true;
     }
 
-    public override string[] solve(SolutionType st)
+    public override List<string> solve(SolutionType st)
     {
       return [];
     }
