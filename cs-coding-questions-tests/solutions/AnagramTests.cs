@@ -13,7 +13,7 @@ namespace cs_coding_questions_tests.solutions
       };
       var ag = new Anagram(args);
       var initialResult = ag.solve(SolutionType.initial);
-      Assert.Equal(["evil vile true", "apple paled false", "flow wolf true", "grammer mergers false", "slate least true"], initialResult);
+      Assert.Equal(["evil vile True", "apple paled False", "flow wolf True", "grammer mergers False", "slate least True"], initialResult);
     }
   }
 }

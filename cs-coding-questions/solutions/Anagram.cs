@@ -99,7 +99,7 @@ namespace cs_coding_questions.solutions
         var firstBreakdown = this.GetCharacterBreakdown(possibleAnagram.firstWord);
         var secondBreakdown = this.GetCharacterBreakdown(possibleAnagram.secondWord);
         var isAnagram = this.BreakdownsAreEqual(firstBreakdown, secondBreakdown);
-        output.Add($"{possibleAnagram.firstWord} ${possibleAnagram.secondWord} ${isAnagram}");
+        output.Add($"{possibleAnagram.firstWord} {possibleAnagram.secondWord} {isAnagram}");
       }
 
       return output;
