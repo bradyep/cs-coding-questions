@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Transactions;
 
@@ -42,7 +43,66 @@ namespace cs_coding_questions.solutions
 
     public override List<string> solve(SolutionType st)
     {
-      return [];
+      this.debugLog($"SolutionType: {st} | possible anagrams: {this.possibleAnagrams.Count}");
+
+      switch (st)
+      {
+        default:
+          return this.Initial(this.possibleAnagrams);
+      }
+    }
+
+    private Dictionary<char, int> GetCharacterBreakdown(string word)
+    {
+      var breakdown = new Dictionary<char, int>();
+      for (int i = 0; i < word.Length; i++)
+      {
+        char character = word[i];
+        int currentCount = breakdown.GetValueOrDefault(character, 0);
+        breakdown[character] = currentCount + 1;
+      }
+
+      return breakdown;
+    }
+
+    private bool BreakdownsAreEqual(Dictionary<char, int> breakdown1, Dictionary<char, int> breakdown2)
+    {
+      if (breakdown1.Count != breakdown2.Count)
+      {
+        return false;
+      }
+
+      foreach (var kvp in breakdown1)
+      {
+        if (!breakdown2.ContainsKey(kvp.Key))
+        {
+          return false;
+        }
+        else
+        {
+          var testVal = breakdown2[kvp.Key];
+          if (testVal != kvp.Value)
+          {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    private List<string> Initial(List<PossibleAnagram> possibleAnagrams)
+    {
+      var output = new List<string>();
+      foreach (var possibleAnagram in possibleAnagrams)
+      {
+        var firstBreakdown = this.GetCharacterBreakdown(possibleAnagram.firstWord);
+        var secondBreakdown = this.GetCharacterBreakdown(possibleAnagram.secondWord);
+        var isAnagram = this.BreakdownsAreEqual(firstBreakdown, secondBreakdown);
+        output.Add($"{possibleAnagram.firstWord} ${possibleAnagram.secondWord} ${isAnagram}");
+      }
+
+      return output;
     }
   }
 }
