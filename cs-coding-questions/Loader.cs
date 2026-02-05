@@ -2,6 +2,7 @@
 using cs_coding_questions.utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace cs_coding_questions
@@ -9,15 +10,21 @@ namespace cs_coding_questions
   internal record ProcessArgsResult(bool Success, string Message);
   internal class Loader
   {
-    public Loader(string[] args) {
+    public Loader(string[] args, bool debug = false)
+    {
+      this.debug = debug;
       this.processArgsResult = this.ProcessArgs(args);
-      Console.WriteLine($"Arg processing result: {this.processArgsResult.Success} | {this.processArgsResult.Message}");
+      if (this.debug)
+      {
+        Console.WriteLine($"Arg processing result: {this.processArgsResult.Success} | {this.processArgsResult.Message}");
+      }
     }
 
     private string? solutionName;
     private SolutionType solutionType;
     private List<string> solutionArgs = [];
     private ProcessArgsResult processArgsResult;
+    private bool debug = false;
 
     private ProcessArgsResult ProcessArgs(string[] args)
     {
@@ -27,7 +34,7 @@ namespace cs_coding_questions
       }
       else
       {
-        Console.WriteLine($"args[0]: {args[0]}, args[1]: {args[1]}");
+        if (this.debug) { Console.WriteLine($"args[0]: {args[0]}, args[1]: {args[1]}"); }
         this.solutionName = args[0];
         int solutionTypeArg;
         if (int.TryParse(args[1], out solutionTypeArg) == false)
@@ -67,7 +74,7 @@ namespace cs_coding_questions
         case "anagram":
           Console.WriteLine($"Running: anagram");
           if (CommandLineArgs.GetOption(this.solutionArgs, "words", "w") is { } words) solutionDict.Add(words.Key, words.Value);
-          var anagram = new Anagram(solutionDict, true);
+          var anagram = new Anagram(solutionDict, this.debug);
           consoleOutput = anagram.solve(this.solutionType);
           break;
         default:
@@ -81,7 +88,8 @@ namespace cs_coding_questions
         {
           Console.WriteLine(line);
         }
-      } else
+      }
+      else
       {
         Console.WriteLine($"Did not receive anything to write to console");
       }
