@@ -69,13 +69,20 @@ namespace cs_coding_questions
         return;
       }
 
-      switch (this.solutionName.Trim().ToLower())
+      var normalizedSolutionName = this.solutionName.Trim().ToLower();
+      switch (normalizedSolutionName)
       {
         case "anagram":
-          Console.WriteLine($"Running: anagram");
+          Console.WriteLine($"Running: {normalizedSolutionName}");
           if (CommandLineArgs.GetOption(this.solutionArgs, "words", "w") is { } words) solutionDict.Add(words.Key, words.Value);
           var anagram = new Anagram(solutionDict, this.debug);
           consoleOutput = anagram.solve(this.solutionType);
+          break;
+        case "linkedlist":
+          Console.WriteLine($"Running: {normalizedSolutionName}");
+          if (CommandLineArgs.GetOption(this.solutionArgs, "values", "v") is { } values) solutionDict.Add(values.Key, values.Value);
+          var linkedlist = new LinkedList(solutionDict, this.debug);
+          consoleOutput = linkedlist.solve(this.solutionType);
           break;
         default:
           Console.WriteLine($"Could not find solution name");

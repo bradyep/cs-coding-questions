@@ -19,7 +19,8 @@ namespace cs_coding_questions.utilities
       if (optionIndex >= lowerCaseArgs.Length - 1 || lowerCaseArgs[optionIndex + 1].StartsWith("-"))
       {
         return new KeyValuePair<string, string>(flag, "true");
-      } else
+      }
+      else
       {
         return new KeyValuePair<string, string>(flag, args[optionIndex + 1]);
       }
