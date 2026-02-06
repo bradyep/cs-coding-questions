@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks.Sources;
 
 namespace cs_coding_questions.solutions
 {
@@ -57,13 +58,79 @@ namespace cs_coding_questions.solutions
       }
       var nodeValues = valuesParam.Split(NODE_DATA_SEPARATOR).ToList();
       CreateLinkedListFromValues(nodeValues);
+      if (this.HeadNode is null)
+      {
+        this.debugLog($"HeadNode is null. Something bad happened");
+
+        return false;
+      }
+      this.debugLog($"Linked Values: {this.HeadNode.ToString()}");
 
       return true;
     }
 
     public override List<string> solve(SolutionType st)
     {
-      return [];
+      switch (st)
+      {
+        default:
+          return this.HeadNode is { } hn ? Initial(this.HeadNode) : [];
+      }
+    }
+
+    private List<string> Initial(LinkedListNode headNode)
+    {
+      if (this.HeadNode is null)
+      {
+        this.debugLog($"HeadNode is null, returning empty array");
+
+        return [];
+      }
+
+      var output = new List<string>();
+      LinkedListNode lastNode = this.HeadNode;
+      LinkedListNode currentNode = this.HeadNode;
+
+      var continueWork = true;
+      while (continueWork)
+      {
+        if (lastNode == currentNode) // Dealing with the HeadNode
+        {
+          // Head becomes the tail
+          currentNode.NextNode = null;
+          if (lastNode.NextNode is null)
+          {
+            this.debugLog($"Only had one node in the list, we're done");
+            continueWork = false;
+          }
+          else
+          {
+            // On to the next ...
+            currentNode = lastNode.NextNode;
+          }
+        }
+        else
+        {
+          if (currentNode is null)
+          {
+            this.debugLog($"current node is null, this should not happen");
+            continueWork = false;
+          }
+          else
+          {
+            if (currentNode.NextNode is null)
+            {
+              // We've reached the old tail
+              continueWork = false;
+            }
+            currentNode.NextNode = lastNode;
+            // On to the next
+            currentNode = currentNode.NextNode;
+          }
+        }
+      }
+
+      return output;
     }
   }
 }
