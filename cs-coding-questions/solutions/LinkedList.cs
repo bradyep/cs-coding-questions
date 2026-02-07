@@ -20,7 +20,14 @@ namespace cs_coding_questions.solutions
 
     public override string ToString()
     {
-      return NextNode is { } nn ? $"{data} {nn.Data} " : $"{data}";
+      LinkedListNode? currentNode = this;
+      List<string> output = [];
+      while (currentNode is not null)
+      {
+        output.Add(currentNode.Data);
+        currentNode = currentNode.NextNode;
+      }
+      return String.Join(", ", output);
     }
   }
   public class LinkedList : Solution
@@ -42,7 +49,9 @@ namespace cs_coding_questions.solutions
       var remainingValues = values.Skip(1).ToList();
       foreach (var value in remainingValues)
       {
-        lastNode.NextNode = new LinkedListNode(value);
+        var newNode = new LinkedListNode(value);
+        lastNode.NextNode = newNode;
+        lastNode = newNode;
         this.debugLog($"Added a node with value: {value}");
       }
     }
@@ -88,17 +97,39 @@ namespace cs_coding_questions.solutions
       }
 
       var output = new List<string>();
-      LinkedListNode lastNode = this.HeadNode;
+      LinkedListNode? previousPointer = null;
+      LinkedListNode? nextPointer = null;
       LinkedListNode currentNode = this.HeadNode;
 
       var continueWork = true;
       while (continueWork)
       {
-        if (lastNode == currentNode) // Dealing with the HeadNode
+        // Save away pointer to next node
+        nextPointer = currentNode.NextNode;
+
+        // Create new node with the current node's value except it now points to previousPointer
+        var newNode = new LinkedListNode(currentNode.Data, previousPointer);
+        string strNewNodeData = newNode?.NextNode?.Data is not null ? newNode.NextNode.Data : "null";
+        this.debugLog($"Created a new node with value: {newNode.Data} and is pointing to a node with data: {strNewNodeData}");
+        //this.debugLog($"Created a new node with value: {newNode.Data} and is pointing to a node with data: {newNode.NextNode.Data}");
+
+        // If nextPointer is null we are done
+        if (nextPointer is null) { continueWork = false; }
+        else
         {
+          // Move on to the next node in the original list
+          previousPointer = newNode;
+          currentNode = nextPointer;
+        }
+
+        /*
+        if (previousPointer is null) // Dealing with the HeadNode
+        {
+          // Save away pointer to next node
+          nextPointer = currentNode.NextNode;
           // Head becomes the tail
           currentNode.NextNode = null;
-          if (lastNode.NextNode is null)
+          if (currentNode.NextNode is null)
           {
             this.debugLog($"Only had one node in the list, we're done");
             continueWork = false;
@@ -106,7 +137,7 @@ namespace cs_coding_questions.solutions
           else
           {
             // On to the next ...
-            currentNode = lastNode.NextNode;
+            currentNode = previousPointer.NextNode;
           }
         }
         else
@@ -123,12 +154,13 @@ namespace cs_coding_questions.solutions
               // We've reached the old tail
               continueWork = false;
             }
-            currentNode.NextNode = lastNode;
+            currentNode.NextNode = previousPointer;
             // On to the next
             currentNode = currentNode.NextNode;
           }
         }
-      }
+        */
+      } // /while (continueWork)
 
       return output;
     }
