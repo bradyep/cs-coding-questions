@@ -111,18 +111,40 @@ namespace cs_coding_questions.solutions
         var newNode = new LinkedListNode(currentNode.Data, previousPointer);
         string strNewNodeData = newNode?.NextNode?.Data is not null ? newNode.NextNode.Data : "null";
         this.debugLog($"Created a new node with value: {newNode.Data} and is pointing to a node with data: {strNewNodeData}");
-        //this.debugLog($"Created a new node with value: {newNode.Data} and is pointing to a node with data: {newNode.NextNode.Data}");
 
+        previousPointer = newNode;
         // If nextPointer is null we are done
         if (nextPointer is null) { continueWork = false; }
         else
         {
           // Move on to the next node in the original list
-          previousPointer = newNode;
           currentNode = nextPointer;
         }
+      }
 
-        /*
+      var newHeadNode = previousPointer;
+      this.debugLog($"Reversed Linked Values: {newHeadNode.ToString()}");
+
+      return output;
+    }
+
+    private List<string> Optimized(LinkedListNode headNode)
+    {
+      if (this.HeadNode is null)
+      {
+        this.debugLog($"HeadNode is null, returning empty array");
+
+        return [];
+      }
+
+      var output = new List<string>();
+      LinkedListNode? previousPointer = null;
+      LinkedListNode? nextPointer = null;
+      LinkedListNode currentNode = this.HeadNode;
+
+      var continueWork = true;
+      while (continueWork)
+      {
         if (previousPointer is null) // Dealing with the HeadNode
         {
           // Save away pointer to next node
@@ -159,7 +181,6 @@ namespace cs_coding_questions.solutions
             currentNode = currentNode.NextNode;
           }
         }
-        */
       } // /while (continueWork)
 
       return output;
