@@ -123,7 +123,9 @@ namespace cs_coding_questions.solutions
       }
 
       var newHeadNode = previousPointer;
-      this.debugLog($"Reversed Linked Values: {newHeadNode.ToString()}");
+      var outputText = newHeadNode?.ToString() ?? "";
+      output.Add(outputText);
+      this.debugLog($"Reversed Linked Values: {outputText}");
 
       return output;
     }
