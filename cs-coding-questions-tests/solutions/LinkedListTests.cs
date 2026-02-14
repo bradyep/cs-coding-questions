@@ -17,6 +17,10 @@ namespace cs_coding_questions_tests.solutions
       var ag = new LinkedList(args);
       var initialResult = ag.solve(SolutionType.initial);
       Assert.Equal(["fifth, fourth, third, second, first"], initialResult);
+
+      var oag = new LinkedList(args);
+      var optimizedResult = oag.solve(SolutionType.optimzed);
+      Assert.Equal(["fifth, fourth, third, second, first"], optimizedResult);
     }
   }
 }

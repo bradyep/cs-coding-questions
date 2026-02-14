@@ -82,8 +82,10 @@ namespace cs_coding_questions.solutions
     {
       switch (st)
       {
+        case SolutionType.optimzed:
+          return this.HeadNode is { } ? Optimized(this.HeadNode) : [];
         default:
-          return this.HeadNode is { } hn ? Initial(this.HeadNode) : [];
+          return this.HeadNode is { } ? Initial(this.HeadNode) : [];
       }
     }
 
@@ -147,43 +149,26 @@ namespace cs_coding_questions.solutions
       var continueWork = true;
       while (continueWork)
       {
-        if (previousPointer is null) // Dealing with the HeadNode
-        {
-          // Save away pointer to next node
-          nextPointer = currentNode.NextNode;
-          // Head becomes the tail
-          currentNode.NextNode = null;
-          if (currentNode.NextNode is null)
-          {
-            this.debugLog($"Only had one node in the list, we're done");
-            continueWork = false;
-          }
-          else
-          {
-            // On to the next ...
-            currentNode = previousPointer.NextNode;
-          }
-        }
+        // Save away pointer to next node
+        nextPointer = currentNode.NextNode;
+
+        // Update current node to point to previousPointer
+        currentNode.NextNode = previousPointer;
+        this.debugLog($"Updated currentNode with value: {currentNode.Data} and is pointing to a node with data: {previousPointer?.Data ?? "null"}");
+        previousPointer = currentNode;
+        // If nextPointer is null we are done
+        if (nextPointer is null) { continueWork = false; }
         else
         {
-          if (currentNode is null)
-          {
-            this.debugLog($"current node is null, this should not happen");
-            continueWork = false;
-          }
-          else
-          {
-            if (currentNode.NextNode is null)
-            {
-              // We've reached the old tail
-              continueWork = false;
-            }
-            currentNode.NextNode = previousPointer;
-            // On to the next
-            currentNode = currentNode.NextNode;
-          }
+          // Move on to the next node in the original list
+          currentNode = nextPointer;
         }
-      } // /while (continueWork)
+      }
+
+      var newHeadNode = previousPointer;
+      var outputText = newHeadNode?.ToString() ?? "";
+      output.Add(outputText);
+      this.debugLog($"Reversed Linked Values: {outputText}");
 
       return output;
     }
