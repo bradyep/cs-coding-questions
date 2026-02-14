@@ -80,6 +80,8 @@ namespace cs_coding_questions.solutions
 
     public override List<string> solve(SolutionType st)
     {
+      if (!this.paramsAreValid) { return ["Invalid Parameters"]; }
+
       switch (st)
       {
         case SolutionType.optimzed:

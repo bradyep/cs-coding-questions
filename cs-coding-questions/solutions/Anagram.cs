@@ -43,6 +43,8 @@ namespace cs_coding_questions.solutions
 
     public override List<string> solve(SolutionType st)
     {
+      if (!this.paramsAreValid) { return ["Invalid Parameters"]; }
+
       this.debugLog($"SolutionType: {st} | possible anagrams: {this.possibleAnagrams.Count}");
 
       switch (st)
