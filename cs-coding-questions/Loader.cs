@@ -84,6 +84,12 @@ namespace cs_coding_questions
           var linkedlist = new LinkedList(solutionDict, this.debug);
           consoleOutput = linkedlist.solve(this.solutionType);
           break;
+        case "binarytree":
+          Console.WriteLine($"Running: {normalizedSolutionName}");
+          if (CommandLineArgs.GetOption(this.solutionArgs, "nodes", "n") is { } nodes) solutionDict.Add(nodes.Key, nodes.Value);
+          var binarytree = new BinaryTree(solutionDict, this.debug);
+          consoleOutput = binarytree.solve(this.solutionType);
+          break;
         default:
           Console.WriteLine($"Could not find solution name");
           break;
