@@ -40,13 +40,29 @@ namespace cs_coding_questions.solutions
       if (this.Left is not null) { this.Left.FlipChildren(); }
       if (this.Right is not null) { this.Right.FlipChildren(); }
     }
+
+    public bool CheckBST()
+    {
+      var leftNodeIsBST = true;
+      var rightNodeIsBST = true;
+      if (this.Left is not null)
+      {
+        leftNodeIsBST = this.value > this.Left.Value && this.Left.CheckBST();
+      }
+      if (this.Right is not null)
+      {
+        rightNodeIsBST = this.value <= this.Right.Value && this.Right.CheckBST();
+      }
+
+      return leftNodeIsBST && rightNodeIsBST;
+    }
   }
   public class BinaryTree : Solution
   {
     //private const char NODE_DATA_SEPARATOR = ',';
     private BinaryTreeNode? HeadNode;
 
-    public BinaryTree(Dictionary<string, string> solutionParams, bool? debug = false): base(solutionParams, debug)
+    public BinaryTree(Dictionary<string, string> solutionParams, bool? debug = false) : base(solutionParams, debug)
     {
       this.paramsAreValid = this.verifyParams();
     }
@@ -80,12 +96,12 @@ namespace cs_coding_questions.solutions
       {
         int nodeValue = int.Parse(valueMatch.Value);
         debugLog($"Set node value to: {nodeValue}");
-        
+
         // Extract content between the outer parentheses
         Match childMatch = Regex.Match(nodeDesc, @"^\d+\((.+)\)$");
         string left = "";
         string right = "";
-        
+
         if (childMatch.Success)
         {
           // This node has children
@@ -99,7 +115,7 @@ namespace cs_coding_questions.solutions
         var btn = new BinaryTreeNode(nodeValue, leftChildNode, rightChildNode);
 
         return btn;
-      } 
+      }
       else
       {
         this.debugLog($"Could not get value for the node");
@@ -135,6 +151,8 @@ namespace cs_coding_questions.solutions
 
       switch (st)
       {
+        case SolutionType.alternateinitial:
+          return this.HeadNode is { } ? AlternateInitial(this.HeadNode) : [];
         default:
           return this.HeadNode is { } ? Initial(this.HeadNode) : [];
       }
@@ -152,6 +170,22 @@ namespace cs_coding_questions.solutions
       var output = new List<string>();
       this.HeadNode.FlipChildren();
       output.Add(headNode.ToString());
+
+      return output;
+    }
+
+    private List<string> AlternateInitial(BinaryTreeNode headNode)
+    {
+      if (this.HeadNode is null)
+      {
+        this.debugLog($"HeadNode is null, returning empty array");
+
+        return [];
+      }
+
+      //this.HeadNode.FlipChildren();
+      var isBST = this.HeadNode.CheckBST();
+      var output = new List<string> { isBST.ToString() };
 
       return output;
     }
