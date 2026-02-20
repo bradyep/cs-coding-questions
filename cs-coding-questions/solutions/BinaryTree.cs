@@ -30,8 +30,18 @@ namespace cs_coding_questions.solutions
 
       return output;
     }
+
+    public void FlipChildren()
+    {
+      var tempChild = this.Left;
+      this.Left = this.Right;
+      this.Right = tempChild;
+
+      if (this.Left is not null) { this.Left.FlipChildren(); }
+      if (this.Right is not null) { this.Right.FlipChildren(); }
+    }
   }
-  internal class BinaryTree : Solution
+  public class BinaryTree : Solution
   {
     //private const char NODE_DATA_SEPARATOR = ',';
     private BinaryTreeNode? HeadNode;
@@ -139,10 +149,9 @@ namespace cs_coding_questions.solutions
         return [];
       }
 
-      var output = new List<string>
-      {
-        this.HeadNode.ToString()
-      };
+      var output = new List<string>();
+      this.HeadNode.FlipChildren();
+      output.Add(headNode.ToString());
 
       return output;
     }
