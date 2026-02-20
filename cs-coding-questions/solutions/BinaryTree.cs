@@ -34,7 +34,7 @@ namespace cs_coding_questions.solutions
   }
   internal class BinaryTree : Solution
   {
-    private const char NODE_DATA_SEPARATOR = ',';
+    //private const char NODE_DATA_SEPARATOR = ',';
     private BinaryTreeNode? HeadNode;
 
     public BinaryTree(Dictionary<string, string> solutionParams, bool? debug = false): base(solutionParams, debug)
@@ -62,7 +62,7 @@ namespace cs_coding_questions.solutions
     /// </summary>
     /// <param name="nodeDesc"></param>
     /// <returns></returns>
-    private bool CreateBinaryTreeNodeFromString(string nodeDesc)
+    private BinaryTreeNode? CreateBinaryTreeNodeFromString(string nodeDesc)
     {
       debugLog($"nodeDesc: {nodeDesc}");
       // Start of string tells us the int value for this node
@@ -79,19 +79,24 @@ namespace cs_coding_questions.solutions
         
         if (childMatch.Success)
         {
+          // This node has children
           string innerContent = childMatch.Groups[1].Value;
           (left, right) = SplitBranches(innerContent);
         }
-
         debugLog($"Left value: {left} | Right value: {right}");
+
+        BinaryTreeNode? leftChildNode = (left != "") ? CreateBinaryTreeNodeFromString(left) : null;
+        BinaryTreeNode? rightChildNode = (right != "") ? CreateBinaryTreeNodeFromString(right) : null;
+        var btn = new BinaryTreeNode(nodeValue, leftChildNode, rightChildNode);
+
+        return btn;
       } 
       else
       {
         this.debugLog($"Could not get value for the node");
-        return false;
-      }
 
-      return false;
+        return null;
+      }
     }
 
     public override bool verifyParams()
@@ -103,8 +108,7 @@ namespace cs_coding_questions.solutions
 
         return false;
       }
-      //var nodeValues = nodesParam.Split(NODE_DATA_SEPARATOR).ToList();
-      CreateBinaryTreeNodeFromString(nodesParam);
+      this.HeadNode = CreateBinaryTreeNodeFromString(nodesParam);
       if (this.HeadNode is null)
       {
         this.debugLog($"HeadNode is null. Something bad happened");
