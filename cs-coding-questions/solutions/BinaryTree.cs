@@ -22,14 +22,13 @@ namespace cs_coding_questions.solutions
 
     public override string ToString()
     {
-      BinaryTreeNode? currentNode = this;
-      List<string> output = [];
-      while (currentNode is not null)
+      string output = this.Value.ToString();
+      if (this.Left != null && this.Right != null)
       {
-        output.Add($"({currentNode.Value.ToString()})");
-        currentNode = currentNode.Left;
+        output = output + $"({this.Left.ToString()},{this.Right.ToString()})";
       }
-      return String.Join(", ", output);
+
+      return output;
     }
   }
   internal class BinaryTree : Solution
@@ -140,7 +139,10 @@ namespace cs_coding_questions.solutions
         return [];
       }
 
-      var output = new List<string>();
+      var output = new List<string>
+      {
+        this.HeadNode.ToString()
+      };
 
       return output;
     }
