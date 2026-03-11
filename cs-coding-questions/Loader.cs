@@ -90,6 +90,12 @@ namespace cs_coding_questions
           var binarytree = new BinaryTree(solutionDict, this.debug);
           consoleOutput = binarytree.solve(this.solutionType);
           break;
+        case "graph":
+          Console.WriteLine($"Running: {normalizedSolutionName}");
+          if (CommandLineArgs.GetOption(this.solutionArgs, "graph", "g") is { } g) solutionDict.Add(g.Key, g.Value);
+          var graph = new Graph(solutionDict, this.debug);
+          consoleOutput = graph.solve(this.solutionType);
+          break;
         default:
           Console.WriteLine($"Could not find solution name");
           break;

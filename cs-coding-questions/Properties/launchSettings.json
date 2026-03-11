@@ -2,7 +2,7 @@
   "profiles": {
     "cs-coding-questions": {
       "commandName": "Project",
-      "commandLineArgs": "anagram 1 --words evil-vile_apple-paled_flow-wolf_grammer-mergers_slate-least"
+      "commandLineArgs": "graph 1 --graph \"1,2|0,2|0,1,3,4|2|2\" --debug"
     }
   }
 }
