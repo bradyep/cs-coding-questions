@@ -8,8 +8,12 @@ namespace cs_coding_questions.solutions
 {
   internal class GraphNode(int id, List<int> adjacencyList)
   {
-    protected int ID => id;
-    protected List<int> AdjacencyList => adjacencyList;
+    public int ID => id;
+    public List<int> AdjacencyList => adjacencyList;
+    public override string ToString()
+    {
+      return $"(ID: {ID}, edges: {string.Join(',', AdjacencyList)})";
+    }
   }
   internal class GraphStructure(List<GraphNode> nodes)
   {
@@ -24,11 +28,24 @@ namespace cs_coding_questions.solutions
       return new List<int>();
     }
 
+    public bool CheckEdges()
+    {
+      var validIds = this.Nodes.Select(n => n.ID).ToList();
+      var allEdgeIds = this.Nodes.SelectMany(n => n.AdjacencyList).Distinct().ToList();
+      foreach (var edgeId in allEdgeIds)
+      {
+        if (!validIds.Contains(edgeId))
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
     public override string ToString()
     {
-      string json = JsonSerializer.Serialize(this.Nodes, new JsonSerializerOptions { WriteIndented = true });
-      
-      return json;
+      return string.Join('|', Nodes.Select(n => n.ToString()));
     }
   }
 
@@ -64,6 +81,16 @@ namespace cs_coding_questions.solutions
         nodeIndex++;
       }
       this.graph = new GraphStructure(nodes);
+
+      if (!this.graph.CheckEdges()) 
+      {
+        debugLog($"Some edges have bad node ids");
+
+        return false; 
+      } else
+      {
+        debugLog($"All edge IDs valid");
+      }
 
       return true;
     }
