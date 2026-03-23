@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
@@ -10,20 +11,34 @@ namespace cs_coding_questions.solutions
   {
     public int ID => id;
     public List<int> AdjacencyList => adjacencyList;
+    public bool visited = false;
+
     public override string ToString()
     {
       return $"(ID: {ID}, edges: {string.Join(',', AdjacencyList)})";
     }
   }
-  internal class GraphStructure(List<GraphNode> nodes)
+
+  internal class GraphStructure(List<GraphNode> nodes, Action<string>? debugLog = null)
   {
-    protected List<GraphNode> Nodes = nodes;
-    protected List<int> DFS()
+    public List<GraphNode> Nodes = nodes;
+    public void DFSRecursive(int nodeId, List<int> output)
     {
-      return new List<int>();
+      var currentNode = this.Nodes[nodeId];
+      if (currentNode.visited) return;
+
+      output.Add(currentNode.ID);
+      currentNode.visited = true;
+      foreach (int adjNodeId in currentNode.AdjacencyList)
+      {
+        var nodeToVisit = this.Nodes[adjNodeId];
+        DFSRecursive(nodeToVisit.ID, output);
+      }
+
+      return;
     }
 
-    protected List<int> BFS()
+    public List<int> BFS()
     {
       return new List<int>();
     }
@@ -49,7 +64,7 @@ namespace cs_coding_questions.solutions
     }
   }
 
-  internal class Graph : Solution
+  public class Graph : Solution
   {
     private const char NODE_SEPARATOR = '|';
     private const char EDGE_SEPARATOR = ',';
@@ -80,7 +95,7 @@ namespace cs_coding_questions.solutions
         nodes.Add(node);
         nodeIndex++;
       }
-      this.graph = new GraphStructure(nodes);
+      this.graph = new GraphStructure(nodes, this.debugLog);
 
       if (!this.graph.CheckEdges()) 
       {
@@ -103,9 +118,36 @@ namespace cs_coding_questions.solutions
 
       switch (st)
       {
+        case SolutionType.alternateinitial:
+          return this.graph is { } ? AlternateInitial(this.graph) : [];
         default:
-          return [];
+          return this.graph is { } ? Initial(this.graph) : [];
       }
     }
+
+    /// <summary>
+    /// Traverses via depth first search
+    /// </summary>
+    /// <param name="graph"></param>
+    /// <returns></returns>
+    private List<string> Initial(GraphStructure graph)
+    {
+      List<int> output = [];
+      var currentNode = graph.Nodes.First();
+      graph.DFSRecursive(currentNode.ID, output);
+
+      return [.. output.Select(i => i.ToString())];
+    }
+
+    /// <summary>
+    /// Traverses via breadth first search
+    /// </summary>
+    /// <param name="graph"></param>
+    /// <returns></returns>
+    private List<string> AlternateInitial(GraphStructure graph)
+    {
+      return [];
+    }
+
   }
 }
